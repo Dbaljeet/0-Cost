@@ -28,13 +28,24 @@ export default async function getProducts(
         Papa.parse(res.data, {
           header: true,
           complete: (results) => {
-            console.log(results.data)
             resolve(results.data as IProduct[])
           },
           error: (error) => {
-            return response.status(400).json({ message: 'error :(' })
+            reject(error)
           },
         })
-      }).then((results) => response.status(200).json(results as IProduct[]))
+      })
+        .then((results) => {
+          const products = results.map((product) => ({
+            ...product,
+            price: Number(product.price),
+          }))
+          response.status(200).json(products as IProduct[])
+        })
+        .catch((error) =>
+          response
+            .status(400)
+            .json({ message: 'error obteniendo los productos' })
+        )
     })
 }
