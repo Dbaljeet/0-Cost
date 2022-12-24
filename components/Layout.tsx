@@ -5,7 +5,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <Head>
         <title>Farmacia costo 0</title>
       </Head>
-      {children}
+      <div className="flex items-center flex-col gap-20 py-24">{children}</div>
     </>
   )
 }
